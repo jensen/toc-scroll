@@ -4,7 +4,7 @@ import Content from "./Content";
 
 import groups from "../items.json";
 
-function App() {
+function Application() {
   return (
     <div className="container">
       <ScrollingProvider items={groups}>
@@ -15,4 +15,4 @@ function App() {
   );
 }
 
-export default App;
+export default Application;

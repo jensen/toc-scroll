@@ -19,6 +19,24 @@ export function ScrollingProvider({ children, items }) {
   const [anchors, setAnchors] = useState([]);
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
 
+  const registerContainer = useCallback((container) => {
+    containerRef.current = container;
+  }, []);
+
+  const addAnchor = useCallback(
+    (anchor) => setAnchors((prev) => [...prev, anchor]),
+    []
+  );
+  const removeAnchor = useCallback(
+    (anchor) => setAnchors((prev) => prev.filter((a) => a !== anchor)),
+    []
+  );
+
+  const selectItem = useCallback(
+    (index) => anchors[index].scrollIntoView({ behavior: "smooth" }),
+    [anchors]
+  );
+
   useEffect(() => {
     const c = containerRef.current;
 
@@ -40,24 +58,6 @@ export function ScrollingProvider({ children, items }) {
   useEffect(() => {
     window.location.hash = `#${items[currentItemIndex].id}`;
   }, [currentItemIndex, items]);
-
-  const registerContainer = useCallback((container) => {
-    containerRef.current = container;
-  }, []);
-
-  const addAnchor = useCallback(
-    (anchor) => setAnchors((prev) => [...prev, anchor]),
-    []
-  );
-  const removeAnchor = useCallback(
-    (anchor) => setAnchors((prev) => prev.filter((a) => a !== anchor)),
-    []
-  );
-
-  const selectItem = useCallback(
-    (index) => anchors[index].scrollIntoView({ behavior: "smooth" }),
-    [anchors]
-  );
 
   return (
     <ScrollingContext.Provider
