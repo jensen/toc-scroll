@@ -22,18 +22,18 @@ function Group(props) {
 }
 
 function Groups(props) {
-  const { items: groups } = useScrolling();
+  const { items } = useScrolling();
 
   return (
     <ul className="groups__list">
-      {groups.map((group) => (
-        <Group key={group.id} {...group} />
+      {items.map((item) => (
+        <Group key={item.id} {...item} />
       ))}
     </ul>
   );
 }
 
-function Content({ groups }) {
+function Content() {
   const { registerContainer } = useScrolling();
   const containerRef = useRef(null);
 
@@ -43,7 +43,7 @@ function Content({ groups }) {
 
   return (
     <div className="content scrollable" ref={containerRef}>
-      <Groups groups={groups} />
+      <Groups />
     </div>
   );
 }

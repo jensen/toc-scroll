@@ -10,7 +10,7 @@ function SideBar(props) {
           <li
             key={item.id}
             className={`toc__list-item ${
-              index === currentItem ? "toc__list-item--active" : ""
+              item === currentItem ? "toc__list-item--active" : ""
             }`}
             onClick={() => selectItem(index)}
           >

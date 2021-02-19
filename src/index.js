@@ -6,6 +6,13 @@ import Application from "./components/Application";
 
 import "./index.css";
 
+/*
+  Notes:
+
+  - https://www.npmjs.com/package/react-router-hash-link
+  - https://www.npmjs.com/package/react-update-url-on-scroll
+*/
+
 ReactDOM.render(
   <React.StrictMode>
     <Router>

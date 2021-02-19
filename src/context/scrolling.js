@@ -17,7 +17,7 @@ export function ScrollingProvider({ children, items }) {
   const containerRef = useRef();
 
   const [anchors, setAnchors] = useState([]);
-  const [currentItem, setCurrentItem] = useState(0);
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
 
   useEffect(() => {
     const c = containerRef.current;
@@ -27,7 +27,9 @@ export function ScrollingProvider({ children, items }) {
         (anchor) => anchor.getBoundingClientRect().top >= 0
       );
 
-      setCurrentItem(anchors.findIndex((anchor) => anchor === closestToTop[0]));
+      setCurrentItemIndex(
+        anchors.findIndex((anchor) => anchor === closestToTop[0])
+      );
     };
 
     c.addEventListener("scroll", scroll);
@@ -36,8 +38,8 @@ export function ScrollingProvider({ children, items }) {
   }, [anchors]);
 
   useEffect(() => {
-    window.location.hash = `#${items[currentItem].id}`;
-  }, [currentItem, items]);
+    window.location.hash = `#${items[currentItemIndex].id}`;
+  }, [currentItemIndex, items]);
 
   const registerContainer = useCallback((container) => {
     containerRef.current = container;
@@ -60,11 +62,11 @@ export function ScrollingProvider({ children, items }) {
   return (
     <ScrollingContext.Provider
       value={{
-        items,
         registerContainer,
         addAnchor,
         removeAnchor,
-        currentItem,
+        currentItem: items[currentItemIndex],
+        items,
         selectItem,
       }}
     >
