@@ -1,0 +1,70 @@
+[
+  {
+    "id": "a",
+    "label": "Group A",
+    "subitems": [
+      {
+        "id": "a1",
+        "label": "Subitem 1"
+      },
+      {
+        "id": "a2",
+        "label": "Subitem 2"
+      }
+    ]
+  },
+  {
+    "id": "b",
+    "label": "Group B",
+    "subitems": [
+      {
+        "id": "b1",
+        "label": "Subitem 1"
+      },
+      {
+        "id": "b2",
+        "label": "Subitem 2"
+      },
+      {
+        "id": "b3",
+        "label": "Subitem 3"
+      }
+    ]
+  },
+  {
+    "id": "c",
+    "label": "Group C",
+    "subitems": [
+      {
+        "id": "c1",
+        "label": "Subitem 1"
+      },
+      {
+        "id": "c2",
+        "label": "Subitem 2"
+      },
+      {
+        "id": "c3",
+        "label": "Subitem 3"
+      }
+    ]
+  },
+  {
+    "id": "d",
+    "label": "Group D",
+    "subitems": [
+      {
+        "id": "d1",
+        "label": "Subitem 1"
+      },
+      {
+        "id": "d2",
+        "label": "Subitem 2"
+      },
+      {
+        "id": "d3",
+        "label": "Subitem 3"
+      }
+    ]
+  }
+]

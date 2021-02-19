@@ -41,15 +41,20 @@ body,
   list-style-type: none;
 }
 
-.toc__list-item,
 .groups__list-item {
   margin: 0;
-  padding: 0;
+  padding: 1rem;
 }
 
 .toc__list-item {
+  margin: 0;
+  padding: 0.5rem;
+}
+
+.toc__list-item--active {
+  color: blue;
 }
 
 .groups__list-item {
-  height: 200px;
+  height: 500px;
 }
