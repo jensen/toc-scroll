@@ -27,6 +27,7 @@ export function ScrollingProvider({ children, items }) {
     (anchor) => setAnchors((prev) => [...prev, anchor]),
     []
   );
+
   const removeAnchor = useCallback(
     (anchor) => setAnchors((prev) => prev.filter((a) => a !== anchor)),
     []
@@ -41,12 +42,12 @@ export function ScrollingProvider({ children, items }) {
     const c = containerRef.current;
 
     const scroll = (event) => {
-      const closestToTop = Array.from(anchors).filter(
+      const [closestToTop] = anchors.filter(
         (anchor) => anchor.getBoundingClientRect().top >= 0
       );
 
       setCurrentItemIndex(
-        anchors.findIndex((anchor) => anchor === closestToTop[0])
+        anchors.findIndex((anchor) => anchor === closestToTop)
       );
     };
 
@@ -65,7 +66,7 @@ export function ScrollingProvider({ children, items }) {
         registerContainer,
         addAnchor,
         removeAnchor,
-        currentItem: items[currentItemIndex],
+        currentItem: items[currentItemIndex] || null,
         items,
         selectItem,
       }}
