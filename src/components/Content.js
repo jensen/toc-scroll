@@ -3,7 +3,7 @@ import { useScrolling } from "../context/scrolling";
 
 function Group(props) {
   const { id, label } = props;
-  const { addAnchor, removeAnchor, currentItem } = useScrolling();
+  const { addAnchor, removeAnchor, checkScroll } = useScrolling();
   const nodeRef = useRef();
 
   useEffect(() => {
@@ -15,10 +15,8 @@ function Group(props) {
   }, [addAnchor, removeAnchor]);
 
   useEffect(() => {
-    if (id === currentItem.id) {
-      nodeRef.current.scrollIntoView(true);
-    }
-  }, [id, currentItem]);
+    checkScroll(id);
+  }, [id, checkScroll]);
 
   return (
     <li className="groups__list-item" ref={nodeRef}>

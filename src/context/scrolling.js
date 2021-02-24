@@ -16,8 +16,16 @@ export function useScrolling() {
 export function ScrollingProvider({ children, items }) {
   const containerRef = useRef();
 
+  const [index, setIndex] = useState({
+    scroll: 0,
+    current: 0,
+  });
   const [anchors, setAnchors] = useState([]);
-  const [currentItemIndex, setCurrentItemIndex] = useState(0);
+
+  const setScrollToIndex = useCallback(
+    (index) => setIndex((prev) => ({ ...prev, scroll: index })),
+    []
+  );
 
   const registerContainer = useCallback((container) => {
     containerRef.current = container;
@@ -33,6 +41,20 @@ export function ScrollingProvider({ children, items }) {
     []
   );
 
+  const scrollToIndex = index.scroll;
+  const currentItemIndex = index.current;
+
+  const checkScroll = useCallback(
+    (id) => {
+      const index = items.findIndex((item) => item.id === id);
+
+      if (scrollToIndex === index && currentItemIndex !== index) {
+        anchors[index].scrollIntoView();
+      }
+    },
+    [anchors, items, scrollToIndex, currentItemIndex]
+  );
+
   useEffect(() => {
     const c = containerRef.current;
 
@@ -43,9 +65,12 @@ export function ScrollingProvider({ children, items }) {
         return top + height / 2 >= 0;
       });
 
-      setCurrentItemIndex(
-        anchors.findIndex((anchor) => anchor === closestToTop)
-      );
+      const index = anchors.findIndex((anchor) => anchor === closestToTop);
+
+      setIndex({
+        scroll: index,
+        current: index,
+      });
     };
 
     c.addEventListener("scroll", scroll);
@@ -65,7 +90,8 @@ export function ScrollingProvider({ children, items }) {
         removeAnchor,
         currentItem: items[currentItemIndex] || null,
         items,
-        selectItem: setCurrentItemIndex,
+        selectItem: setScrollToIndex,
+        checkScroll,
       }}
     >
       {children}
