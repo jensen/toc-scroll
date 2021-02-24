@@ -15,6 +15,7 @@ export function useScrolling() {
 
 export function ScrollingProvider({ children, items }) {
   const containerRef = useRef();
+  const mouseRef = useRef();
 
   const [index, setIndex] = useState({
     scroll: 0,
@@ -24,6 +25,10 @@ export function ScrollingProvider({ children, items }) {
 
   const setScrollToIndex = useCallback(
     (index) => setIndex((prev) => ({ ...prev, scroll: index })),
+    []
+  );
+  const setCurrentItemIndex = useCallback(
+    (index) => setIndex((prev) => ({ ...prev, current: index })),
     []
   );
 
@@ -49,16 +54,37 @@ export function ScrollingProvider({ children, items }) {
       const index = items.findIndex((item) => item.id === id);
 
       if (scrollToIndex === index && currentItemIndex !== index) {
-        anchors[index].scrollIntoView();
+        anchors[index].scrollIntoView(true);
+        setCurrentItemIndex(index);
       }
     },
-    [anchors, items, scrollToIndex, currentItemIndex]
+    [anchors, items, scrollToIndex, currentItemIndex, setCurrentItemIndex]
   );
+
+  useEffect(() => {
+    const mousemove = (event) => {
+      mouseRef.current = {
+        x: event.clientX,
+        y: event.clientY,
+      };
+    };
+
+    window.addEventListener("mousemove", mousemove);
+
+    return () => window.addEventListener("mousemove", mousemove);
+  }, []);
 
   useEffect(() => {
     const c = containerRef.current;
 
     const scroll = (event) => {
+      const { x: containerX } = c.getBoundingClientRect();
+      const { x: mouseX } = mouseRef.current;
+
+      if (mouseX < containerX) {
+        return;
+      }
+
       const [closestToTop] = anchors.filter((anchor) => {
         const { height, top } = anchor.getBoundingClientRect();
 
