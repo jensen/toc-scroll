@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 import { useScrolling } from "../context/scrolling";
 
 function Group(props) {
-  const { label } = props;
-  const { addAnchor, removeAnchor } = useScrolling();
+  const { id, label } = props;
+  const { addAnchor, removeAnchor, currentItem } = useScrolling();
   const nodeRef = useRef();
 
   useEffect(() => {
@@ -13,6 +13,12 @@ function Group(props) {
 
     return () => removeAnchor(c);
   }, [addAnchor, removeAnchor]);
+
+  useEffect(() => {
+    if (id === currentItem.id) {
+      nodeRef.current.scrollIntoView(true);
+    }
+  }, [id, currentItem]);
 
   return (
     <li className="groups__list-item" ref={nodeRef}>

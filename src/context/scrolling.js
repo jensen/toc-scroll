@@ -33,18 +33,15 @@ export function ScrollingProvider({ children, items }) {
     []
   );
 
-  const selectItem = useCallback(
-    (index) => anchors[index].scrollIntoView({ behavior: "smooth" }),
-    [anchors]
-  );
-
   useEffect(() => {
     const c = containerRef.current;
 
     const scroll = (event) => {
-      const [closestToTop] = anchors.filter(
-        (anchor) => anchor.getBoundingClientRect().top >= 0
-      );
+      const [closestToTop] = anchors.filter((anchor) => {
+        const { height, top } = anchor.getBoundingClientRect();
+
+        return top + height / 2 >= 0;
+      });
 
       setCurrentItemIndex(
         anchors.findIndex((anchor) => anchor === closestToTop)
@@ -68,7 +65,7 @@ export function ScrollingProvider({ children, items }) {
         removeAnchor,
         currentItem: items[currentItemIndex] || null,
         items,
-        selectItem,
+        selectItem: setCurrentItemIndex,
       }}
     >
       {children}
